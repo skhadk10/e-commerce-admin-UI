@@ -1,8 +1,24 @@
-import logo from "./logo.svg";
+import { Button } from "react-bootstrap";
 import "./App.css";
-
+import DefaultLayout from "./components/layout/DefaultLayout";
+import Dashboard from "./page/Dashboard/Dashboard";
+import Login from "./page/login/Login";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 function App() {
-  return <div className="App">hello</div>;
+  return (
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route path="/Dashboard">
+            <Dashboard />
+          </Route>{" "}
+          <Route path="/">
+            <Login />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
+  );
 }
 
 export default App;
