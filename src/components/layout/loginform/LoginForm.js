@@ -1,25 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Form, Button } from "react-bootstrap";
 import "./loginForm.style.css";
+
+const initialState = {
+  email: "",
+  password: "",
+};
+
 const LoginForm = () => {
+  const [login, setLogin] = useState(initialState);
+
+  const handleOnChange = (e) => {
+    console.log("from form component>>", e.target.value);
+    const { name, value } = e.target;
+    setLogin({ ...login, [name]: value });
+    console.log(name, value);
+  };
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
     <div className="login-form">
       <Card className="py-4">
-        <Form>
+        <Form onSubmit={handleOnSubmit}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control
+              name="email"
+              type="email"
+              placeholder="Enter email"
+              value={login.email}
+              onChange={handleOnChange}
+              required
+            />
           </Form.Group>
 
           <Form.Group controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control
+              name="password"
+              type="password"
+              placeholder="Password"
+              value={login.password}
+              onChange={handleOnChange}
+              required
+            />
           </Form.Group>
 
           <Button variant="primary" type="submit">
             Submit
           </Button>
         </Form>
+        <a href="/reset-password" className="text center">
+          Forget Password?
+        </a>
       </Card>
     </div>
   );
