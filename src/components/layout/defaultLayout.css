@@ -1,3 +1,27 @@
+.default-layout {
+  display: grid;
+  grid-template-columns: 250px auto;
+}
+.navbar-text {
+  margin-left: 1rem;
+}
 .left-bar {
-  background: red;
+  background: #000;
+  height: 100vh;
+  color: white;
+  width: 250px;
+  top: 0;
+  left: 0;
+  overflow-x: hiddem;
+  z-index: 90;
+}
+
+.footer {
+  background: grey;
+  color: wheat;
+  min-height: 100px;
+  position: fixed;
+  width: 100%;
+  padding: 1rem;
+  margin-top: 1rem;
 }
