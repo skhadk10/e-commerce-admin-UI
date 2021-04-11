@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This is the e-commerce admin panel
+This is the e-commerce admin panel of e-commerance site
 
 ## HOw to use
 
