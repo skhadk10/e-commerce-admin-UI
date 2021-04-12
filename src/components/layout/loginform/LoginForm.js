@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Card, Form, Button } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import "./loginForm.style.css";
 
 const initialState = {
@@ -8,6 +9,7 @@ const initialState = {
 };
 
 const LoginForm = () => {
+  const history = useHistory();
   const [login, setLogin] = useState(initialState);
 
   const handleOnChange = (e) => {
@@ -19,6 +21,7 @@ const LoginForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    history.push("/dashboard");
   };
   return (
     <div className="login-form">
