@@ -4,6 +4,7 @@ const initialState = {
   status: "",
   message: "",
   categoryList: [],
+  categoryItemDelete: [],
 };
 
 const categorySlice = createSlice({
@@ -20,8 +21,16 @@ const categorySlice = createSlice({
       state.message = payload.message;
     },
     fetchAllCategorySuccess: (state, { payload }) => {
-      state.categoryList = payload;
+      state.categoryList = payload.result;
+      state.isLoading = false;
     },
+    deleteCatSuccess: (state, { payload }) => {
+      state.isLoading = false;
+      state.status = payload.status;
+      state.message = payload.message;
+      if (payload.status === "success") state.deleteAllCategory = [];
+    },
+
     requestFail: (state, { payload }) => {
       state.isLoading = false;
       state.status = payload.status;
@@ -35,5 +44,6 @@ export const {
   addCategorySuccess,
   fetchAllCategorySuccess,
   requestFail,
+  deleteCatSuccess,
 } = actions;
 export default reducer;

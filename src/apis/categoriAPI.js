@@ -14,10 +14,22 @@ export const saveCategory = (formDt) => {
     }
   });
 };
-export const getCategory = () => {
+export const getCategories = () => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data } = await axios.get(catApi);
+
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+export const deleteCategories = (idArg) => {
+  console.log(idArg);
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { data } = await axios.delete(catApi, { data: idArg });
 
       resolve(data);
     } catch (error) {
