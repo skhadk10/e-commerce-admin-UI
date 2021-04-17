@@ -18,7 +18,7 @@ const SideBarNav = () => {
           </Link>
         </li>
         <li>
-          <Link to="/product">
+          <Link to="/products">
             <i className="fas fa-table"></i> Product
           </Link>
         </li>

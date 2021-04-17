@@ -6,6 +6,8 @@ import Category from "./page/category/Category";
 import Login from "./page/login/Login";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import PasswordReset from "./page/password reset/passwordReset";
+import Product from "./page/producrt/product";
+import AddProduct from "./page/producrt/AddProduct";
 function App() {
   return (
     <div className="App">
@@ -16,6 +18,12 @@ function App() {
           </Route>
           <Route path="/Category">
             <Category />
+          </Route>
+          <Route path="/Products">
+            <Product />
+          </Route>
+          <Route path="/Product/new">
+            <AddProduct />
           </Route>
 
           <Route path="/reset-password">

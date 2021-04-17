@@ -2,17 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Col, Button, ListGroup, Spinner, Alert } from "react-bootstrap";
 
-import {
-  addNewCategory,
-  fetchCategories,
-} from "../../page/category/categoryAction.js";
-import ListCategory from "../list-category/ListCategory.js";
+import { updateNameCategories } from "../../page/category/categoryAction.js";
 
 const initialState = {
   name: "",
 };
 
-const EditCategoryForm = () => {
+const EditCategoryForm = ({ categoryEdit }) => {
   const dispatch = useDispatch();
 
   const { isLoading, status, message, categoryList } = useSelector(
@@ -44,38 +40,31 @@ const EditCategoryForm = () => {
         </Alert>
       )}
       <Form onSubmit={handleOnSubmit}>
-        <Form.Group as={Col} controlId="">
-          <Form.Label>New Category</Form.Label>
-          <Form.Control
-            name="name"
-            type="text"
-            value={category.name}
-            placeholder="Enter New Category"
-            onChange={handleOnChange}
-            required
-          />
-        </Form.Group>
+        <Form.Row>
+          <Form.Group as={Col} controlId="">
+            <Form.Label>New Category</Form.Label>
+            <Form.Control
+              name="name"
+              type="text"
+              value={category.name}
+              placeholder="Enter New Category"
+              onChange={handleOnChange}
+              required
+            />
+          </Form.Group>
 
-        <Form.Group as={Col} controlId="formGridState">
-          <Form.Label>Select Parent Category</Form.Label>
-          <Form.Control as="select" name="parentCat" onChange={handleOnChange}>
-            <option>Choose...</option>
-
-            {categoryList?.map((row, i) => (
-              <option key={i} value={row._id}>
-                {row.name}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+          <Button
+            onClick={() => dispatch(updateNameCategories(category))}
+            variant="primary"
+            type="submit"
+          >
+            Submit
+          </Button>
+        </Form.Row>
       </Form>
       <hr />
     </div>
   );
 };
 
-export default AddCategoryForm;
+export default EditCategoryForm;

@@ -30,6 +30,11 @@ const categorySlice = createSlice({
       state.message = payload.message;
       if (payload.status === "success") state.deleteAllCategory = [];
     },
+    updateCatSuccess: (state, { payload }) => {
+      state.isPending = false;
+      state.status = payload.status;
+      state.message = payload.message;
+    },
 
     requestFail: (state, { payload }) => {
       state.isLoading = false;
@@ -45,5 +50,6 @@ export const {
   fetchAllCategorySuccess,
   requestFail,
   deleteCatSuccess,
+  updateCatSuccess,
 } = actions;
 export default reducer;

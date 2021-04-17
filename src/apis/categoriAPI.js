@@ -37,3 +37,14 @@ export const deleteCategories = (idArg) => {
     }
   });
 };
+
+export const updateCategories = (name) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { data } = await axios.patch(catApi, { name });
+      resolve(resolve);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

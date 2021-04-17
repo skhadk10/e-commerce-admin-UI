@@ -3,12 +3,14 @@ import {
   getCategories,
   saveCategory,
   deleteCategories,
+  updateCategories,
 } from "../../apis/categoriAPI.js";
 import {
   requestPending,
   addCategorySuccess,
   fetchAllCategorySuccess,
   deleteCatSuccess,
+  updateCatSuccess,
   requestFail,
 } from "./CategorySlice";
 
@@ -49,6 +51,22 @@ export const removeCategories = (idArg) => async (dispatch) => {
     const result = await deleteCategories(idArg);
     console.log(result);
     dispatch(deleteCatSuccess(result));
+    result.status === "success" && dispatch(fetchCategories());
+  } catch (error) {
+    const err = {
+      status: "error",
+      message: error.message,
+    };
+    dispatch(requestFail(err));
+  }
+};
+
+export const updateNameCategories = (name) => async (dispatch) => {
+  try {
+    dispatch(requestPending());
+    const result = await updateCategories(name);
+    console.log(result);
+    dispatch(updateCatSuccess(result));
     result.status === "success" && dispatch(fetchCategories());
   } catch (error) {
     const err = {
