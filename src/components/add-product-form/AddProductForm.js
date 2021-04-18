@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Form, Spinner, Alert } from "react-bootstrap";
+import { addNewProduct } from "../../page/product//productAction.js";
 const initialState = {
   name: "",
   qty: "",
@@ -12,14 +14,19 @@ const initialState = {
   categories: [],
 };
 const AddProductForm = () => {
+  const dispatch = useDispatch();
   const [newProduct, setNewProduct] = useState(initialState);
 
+  const { isLoading, status, message, productList } = useSelector(
+    (state) => state.product
+  );
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setNewProduct({ ...newProduct, [name]: value });
   };
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    dispatch(addNewProduct(newProduct));
   };
   //   const Product = {
   //     name,
@@ -35,6 +42,13 @@ const AddProductForm = () => {
   //   };
   return (
     <div>
+      {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
+
+      {message && (
+        <Alert variant={status === "success" ? "success" : "danger"}>
+          {message}
+        </Alert>
+      )}
       <Form onSubmit={handleOnSubmit}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Name</Form.Label>
@@ -75,7 +89,13 @@ const AddProductForm = () => {
         </Form.Group>
         <Form.Group>
           <Form.Label>Sale End Date</Form.Label>
-          <Form.Control name="saleEndPrice" type="Date" placeholder="45.0 " />
+          <Form.Control
+            name="saleEndDate"
+            type="Date"
+            value={newProduct.saleEndDate}
+            onChange={handleOnChange}
+            placeholder="45.0 "
+          />
         </Form.Group>
 
         <Form.Group controlId="formBasicCheckbox">

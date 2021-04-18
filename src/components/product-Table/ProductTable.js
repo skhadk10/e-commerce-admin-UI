@@ -1,35 +1,67 @@
-import React from "react";
-import { Table } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
+import { useSelector, useDispatch } from "react-redux";
+import { Table, Spinner, Alert, Button } from "react-bootstrap";
+import { fetchProduct } from "../../page/product/productAction";
+
 const ProductListTable = () => {
+  const history = useHistory();
+
+  const { isLoading, status, message, productList } = useSelector(
+    (state) => state.product
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProduct());
+  }, [dispatch]);
+
   return (
     <div>
+      {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
+
+      {status === "error" && (
+        <Alert variant={status === "success" ? "success" : "danger"}>
+          {message}
+        </Alert>
+      )}
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
+            <th>status</th>
+            <th>Thumbnail</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td colSpan="2">Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
+          {productList?.map((row, i) => {
+            return (
+              <tr key={row._id}>
+                <td>{i}</td>
+                <td>{row.status}</td>
+                <td>put images here</td>
+                <td>{row.name}</td>
+                <td>{row.price}</td>
+                <td>
+                  <Button
+                    variant="primary"
+                    onClick={() => history.push(`/product/${row._id}`)}
+                  >
+                    Edit
+                  </Button>
+                </td>
+                <td>
+                  <Button variant="danger">Delete</Button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
     </div>

@@ -6,8 +6,9 @@ import Category from "./page/category/Category";
 import Login from "./page/login/Login";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import PasswordReset from "./page/password reset/passwordReset";
-import Product from "./page/producrt/product";
-import AddProduct from "./page/producrt/AddProduct";
+import Product from "./page/product/product";
+import EditProduct from "./page/edit-product/EditProduct.js";
+import AddProduct from "./page/product/AddProduct";
 function App() {
   return (
     <div className="App">
@@ -24,6 +25,9 @@ function App() {
           </Route>
           <Route path="/Product/new">
             <AddProduct />
+          </Route>
+          <Route path="/Product/:_id">
+            <EditProduct />
           </Route>
 
           <Route path="/reset-password">
