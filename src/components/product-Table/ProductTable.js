@@ -44,7 +44,13 @@ const ProductListTable = () => {
             return (
               <tr key={row._id}>
                 <td>{i}</td>
-                <td>{row.status}</td>
+                <td>
+                  {row.status ? (
+                    <i className="fas fa-check-circle text-success"></i>
+                  ) : (
+                    <i className="fas fa-times-circle text-danger"></i>
+                  )}
+                </td>
                 <td>put images here</td>
                 <td>{row.name}</td>
                 <td>{row.price}</td>

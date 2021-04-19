@@ -38,7 +38,10 @@ export const fetchAProduct = (_id) => async (dispatch) => {
     dispatch(requestFail(err));
   }
 };
+
+// UPdate product in Edit product form
 export const updateAProduct = (formDt) => async (dispatch) => {
+  console.log(formDt);
   try {
     dispatch(requestPending());
     const result = await updateProduct(formDt);

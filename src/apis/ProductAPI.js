@@ -50,10 +50,11 @@ export const productDelete = (_id) => {
   });
 };
 
+// UPdate product in Edit product form
 export const updateProduct = (formDt) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { data } = await axios.put(ProdAPI, { formDt });
+      const { data } = await axios.put(ProdAPI, formDt);
       resolve(data);
     } catch (error) {
       reject(error);

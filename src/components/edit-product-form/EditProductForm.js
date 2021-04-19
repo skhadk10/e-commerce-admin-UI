@@ -9,8 +9,9 @@ import {
 import { useParams } from "react-router-dom";
 const initialState = {
   name: "",
+  slug: "",
   qty: "",
-  IsAvaliable: true,
+  status: true,
   price: 0,
   salePrice: 0,
   saleEndDate: Date(),
@@ -79,14 +80,26 @@ const EditProductForm = () => {
               We'll never share your email with anyone else.
             </Form.Text> */}
           </Form.Group>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>slug</Form.Label>
+            <Form.Control
+              name="slug"
+              type="text"
+              value={editProduct.slug}
+              required
+              disabled
+            />
+          </Form.Group>
+
           <Form.Group>
             <Form.Check
-              name="IsAvaliable"
-              checked={editProduct.IsAvaliable}
-              onChange={handleOnChange}
+              name="status"
+              id="status"
               type="switch"
-              id="custom-switch"
-              label="Avaliable"
+              label="Available"
+              checked={editProduct.status}
+              // value={editProduct.status}
+              onChange={handleOnChange}
             />
           </Form.Group>
           <Form.Group>
