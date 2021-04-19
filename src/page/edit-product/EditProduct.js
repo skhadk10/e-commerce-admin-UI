@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import EditProductForm from "../../components/add-product-form copy/EditProductForm";
+import EditProductForm from "../../components/edit-product-form/EditProductForm";
 
 import DefaultLayout from "../../components/layout/DefaultLayout";
 

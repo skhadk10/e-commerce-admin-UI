@@ -1,8 +1,9 @@
 // import { deleteCategory } from "../../e-commerance-api/model/category/Category.model.js";
-import { getAProduct } from "../../apis/ProductAPI.js";
+import { getAProduct, updateProduct } from "../../apis/ProductAPI.js";
 import {
   requestPending,
   fetchProductSuccess,
+  updateProductSucess,
   requestFail,
 } from "./selectedProductSlice.js";
 
@@ -23,12 +24,26 @@ import {
 //   }
 // };
 
-export const fetchProduct = (_id) => async (dispatch) => {
+export const fetchAProduct = (_id) => async (dispatch) => {
   try {
     dispatch(requestPending());
     const result = await getAProduct(_id);
     console.log(result);
     dispatch(fetchProductSuccess(result));
+  } catch (error) {
+    const err = {
+      status: "error",
+      message: error.message,
+    };
+    dispatch(requestFail(err));
+  }
+};
+export const updateAProduct = (formDt) => async (dispatch) => {
+  try {
+    dispatch(requestPending());
+    const result = await updateProduct(formDt);
+    console.log(result);
+    dispatch(updateProductSucess(result));
   } catch (error) {
     const err = {
       status: "error",

@@ -25,6 +25,18 @@ export const getProducts = () => {
     }
   });
 };
+
+export const getAProduct = (_id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { data } = await axios.get(ProdAPI + "/" + _id);
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 export const productDelete = (_id) => {
   console.log(_id);
   return new Promise(async (resolve, reject) => {
@@ -38,20 +50,10 @@ export const productDelete = (_id) => {
   });
 };
 
-export const updateCategories = (name) => {
+export const updateProduct = (formDt) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { data } = await axios.patch(ProdAPI, { name });
-      resolve(resolve);
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-export const getAProduct = (_id) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const { data } = await axios.get(ProdAPI + "/" + _id);
+      const { data } = await axios.put(ProdAPI, { formDt });
       resolve(data);
     } catch (error) {
       reject(error);

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, Spinner, Alert } from "react-bootstrap";
-import { fetchProduct } from "../../page/edit-product/EditproductAction.js";
-import { addNewProduct } from "../../page/product/productAction.js";
+import {
+  fetchAProduct,
+  updateAProduct,
+} from "../../page/edit-product/EditproductAction.js";
+
 import { useParams } from "react-router-dom";
 const initialState = {
   name: "",
@@ -28,36 +31,26 @@ const EditProductForm = () => {
   useEffect(() => {
     // /call api and update our state for a individual product
     if (!editProduct._id) {
-      dispatch(fetchProduct(_id));
+      dispatch(fetchAProduct(_id));
       setEditProduct(product);
     }
-  }, [dispatch, product, editProduct, _id]);
+  }, [dispatch, editProduct, _id]);
 
   const handleOnChange = (e) => {
     const { name, value, checked } = e.target;
     let val = value;
-    if (name === "IsAvaliable") {
+    if (name === "status") {
       val = checked;
     }
     setEditProduct({ ...editProduct, [name]: val });
   };
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(editProduct);
-    // dispatch(addNewProduct(newProduct));
+    const { __v, ...updateProduct } = editProduct;
+    console.log(updateProduct);
+    dispatch(updateAProduct(updateProduct));
   };
-  //   const Product = {
-  //     name,
-  //     slug,
-  //   Quantity,
-  //     qty,
-  //     description,
-  //     price,
-  //     saleProice,
-  //     images: [],
-  //     thumnail,
-  //     categories: [],
-  //   };
+
   return (
     <div>
       {isLoading && <Spinner variant="primary" animation="border"></Spinner>}

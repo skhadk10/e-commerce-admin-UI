@@ -18,6 +18,11 @@ const selectedProductSlice = createSlice({
       state.isLoading = false;
       state.product = payload.result || {};
     },
+    updateProductSucess: (state, { payload }) => {
+      state.isLoading = false;
+      state.status = payload.status;
+      state.message = payload.message;
+    },
 
     requestFail: (state, { payload }) => {
       state.isLoading = false;
@@ -27,5 +32,10 @@ const selectedProductSlice = createSlice({
   },
 });
 const { reducer, actions } = selectedProductSlice;
-export const { requestPending, fetchProductSuccess, requestFail } = actions;
+export const {
+  requestPending,
+  fetchProductSuccess,
+  updateProductSucess,
+  requestFail,
+} = actions;
 export default reducer;
