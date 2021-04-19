@@ -5,7 +5,7 @@ import { addNewProduct } from "../../page/product//productAction.js";
 const initialState = {
   name: "",
   qty: "",
-  IsAvaliable: "off",
+  status: false,
   price: 0,
   salePrice: 0,
   saleEndDate: null,
