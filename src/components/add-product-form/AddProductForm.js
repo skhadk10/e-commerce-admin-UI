@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, Spinner, Alert } from "react-bootstrap";
 import { addNewProduct } from "../../page/product//productAction.js";
+import ProductCategoryList from "../product-category-list/ProductCategoryList.js";
 const initialState = {
   name: "",
-  qty: "",
-  status: false,
+  qty: 0,
+  status: true,
   price: 0,
   salePrice: 0,
   saleEndDate: null,
@@ -16,6 +17,7 @@ const initialState = {
 const AddProductForm = () => {
   const dispatch = useDispatch();
   const [newProduct, setNewProduct] = useState(initialState);
+  const [images, setImages] = useState([]);
 
   const { isLoading, status, message, productList } = useSelector(
     (state) => state.product
@@ -26,20 +28,43 @@ const AddProductForm = () => {
   };
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    dispatch(addNewProduct(newProduct));
+
+    const formData = new FormData();
+
+    Object.keys(newProduct).map((key) => {
+      key !== "images" && formData.append(key, newProduct[key]);
+    });
+    images.length &&
+      [...images].map((image) => {
+        formData.append("images", image);
+      });
+    dispatch(addNewProduct(formData));
   };
-  //   const Product = {
-  //     name,
-  //     slug,
-  //   Quantity,
-  //     qty,
-  //     description,
-  //     price,
-  //     saleProice,
-  //     images: [],
-  //     thumnail,
-  //     categories: [],
-  //   };
+
+  const handleOnSelectChange = (e) => {
+    const { files } = e.target;
+    setImages(files);
+  };
+
+  const onCatSelect = (e) => {
+    const { checked, value } = e.target;
+    console.log(checked, value);
+    if (checked) {
+      // put _id in side the array
+      setNewProduct({
+        ...newProduct,
+        categories: [...newProduct.categories, value],
+      });
+    } else {
+      // take _id in the array
+      const updateCatIds = newProduct.categories.map((id) => id !== value);
+      setNewProduct({
+        ...newProduct,
+        categories: updateCatIds,
+      });
+    }
+  };
+
   return (
     <div>
       {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
@@ -49,7 +74,7 @@ const AddProductForm = () => {
           {message}
         </Alert>
       )}
-      <Form onSubmit={handleOnSubmit}>
+      <Form onSubmit={handleOnSubmit} entype="multipart/form-data">
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Name</Form.Label>
           <Form.Control
@@ -65,7 +90,15 @@ const AddProductForm = () => {
           </Form.Text> */}
         </Form.Group>
         <Form.Group>
-          <Form.Check type="switch" id="custom-switch" label="Avaliable" />
+          <Form.Check
+            name="status"
+            type="switch"
+            id="IsAvailable"
+            label="Avaliable"
+            value={newProduct.status}
+            onChange={handleOnChange}
+            required
+          />
         </Form.Group>
         <Form.Group>
           <Form.Label>Price</Form.Label>
@@ -123,16 +156,6 @@ const AddProductForm = () => {
           />
         </Form.Group>
 
-        {/* <Form.Group>
-          <Form.File
-            name="images"
-            value={newProduct.images}
-            onChange={handleOnChange}
-            id="exampleFormControlFile1"
-            label="Images"
-          />
-        </Form.Group> */}
-
         {/* <Form.Group controlId="exampleForm.ControlSelect2">
           <Form.Label>Select Categories</Form.Label>
           <Form.Control
@@ -150,6 +173,23 @@ const AddProductForm = () => {
             <option>5</option>
           </Form.Control>
         </Form.Group> */}
+
+        <hr />
+        <ProductCategoryList
+          onCatSelect={onCatSelect}
+          SelectedCatIds={newProduct.categories}
+        />
+        <hr />
+        <Form.Group>
+          <Form.File
+            name="images"
+            onChange={handleOnSelectChange}
+            id="exampleFormControlFile1"
+            label="upload image file only"
+            multiple
+          />
+        </Form.Group>
+
         <Button variant="primary" type="submit">
           Submit
         </Button>

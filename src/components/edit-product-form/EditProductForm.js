@@ -7,10 +7,11 @@ import {
 } from "../../page/edit-product/EditproductAction.js";
 
 import { useParams } from "react-router-dom";
+import ProductCategoryList from "../product-category-list/ProductCategoryList.js";
 const initialState = {
   name: "",
   slug: "",
-  qty: "",
+  qty: 0,
   status: true,
   price: 0,
   salePrice: 0,
@@ -31,11 +32,12 @@ const EditProductForm = () => {
 
   useEffect(() => {
     // /call api and update our state for a individual product
-    if (!editProduct._id) {
+    // rerender huda or refresh garda same aauni condition second ko
+    if (!editProduct._id || editProduct._id !== product._id) {
       dispatch(fetchAProduct(_id));
       setEditProduct(product);
     }
-  }, [dispatch, editProduct, _id]);
+  }, [dispatch, product, editProduct, _id]);
 
   const handleOnChange = (e) => {
     const { name, value, checked } = e.target;
@@ -52,6 +54,24 @@ const EditProductForm = () => {
     dispatch(updateAProduct(updateProduct));
   };
 
+  const onCatSelect = (e) => {
+    const { checked, value } = e.target;
+    console.log(checked, value);
+    if (checked) {
+      // put _id in side the array
+      setEditProduct({
+        ...editProduct,
+        categories: [...editProduct.categories, value],
+      });
+    } else {
+      // take _id in the array
+      const updateCatIds = editProduct.categories.map((id) => id !== value);
+      setEditProduct({
+        ...editProduct,
+        categories: updateCatIds,
+      });
+    }
+  };
   return (
     <div>
       {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
@@ -185,6 +205,12 @@ const EditProductForm = () => {
               <option>5</option>
             </Form.Control>
           </Form.Group> */}
+          <hr />
+          <ProductCategoryList
+            onCatSelect={onCatSelect}
+            SelectedCatIds={editProduct.categories}
+          />
+          <hr />
           <Button variant="primary" type="submit">
             Submit
           </Button>

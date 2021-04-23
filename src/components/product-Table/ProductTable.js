@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
-import { Table, Spinner, Alert, Button } from "react-bootstrap";
-import { fetchProduct } from "../../page/product/productAction";
+import { Table, Spinner, Alert, Button, Image } from "react-bootstrap";
+import { fetchProduct, deleteProduct } from "../../page/product/productAction";
 
 const ProductListTable = () => {
   const history = useHistory();
@@ -17,6 +17,10 @@ const ProductListTable = () => {
   useEffect(() => {
     dispatch(fetchProduct());
   }, [dispatch]);
+
+  const handleOnDelete = (_id) => {
+    dispatch(deleteProduct(_id));
+  };
 
   return (
     <div>
@@ -51,7 +55,14 @@ const ProductListTable = () => {
                     <i className="fas fa-times-circle text-danger"></i>
                   )}
                 </td>
-                <td>put images here</td>
+                <td>
+                  <Image
+                    src={row.images[0]}
+                    width="80px"
+                    height="auto"
+                    alt="product images"
+                  />
+                </td>
                 <td>{row.name}</td>
                 <td>{row.price}</td>
                 <td>
@@ -63,7 +74,12 @@ const ProductListTable = () => {
                   </Button>
                 </td>
                 <td>
-                  <Button variant="danger">Delete</Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleOnDelete(row._id)}
+                  >
+                    Delete
+                  </Button>
                 </td>
               </tr>
             );

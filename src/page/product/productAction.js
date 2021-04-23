@@ -47,7 +47,7 @@ export const fetchProduct = () => async (dispatch) => {
     dispatch(requestFail(err));
   }
 };
-export const removeProduct = (_id) => async (dispatch) => {
+export const deleteProduct = (_id) => async (dispatch) => {
   try {
     dispatch(requestPending());
     const result = await productDelete(_id);
