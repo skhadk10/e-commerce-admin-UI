@@ -4,6 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { removeCategories } from "../../page/category/categoryAction";
 import EditCategoryForm from "../edit-category-form/EditCategoryForm.js";
+import {
+  selectACategory,
+  toggleCategoryEditModal,
+} from "../../page/category/CategorySlice.js";
 const ListCategory = () => {
   const { categoryList } = useSelector((state) => state.category);
   console.log(categoryList);
@@ -26,57 +30,59 @@ const ListCategory = () => {
   };
 
   const handleOnEdit = (_id) => {
-    showForm === _id ? setshowForm("") : setshowForm(_id);
+    dispatch(toggleCategoryEditModal());
+    const catItme = categoryList.filter((row) => row._id === _id)[0];
+    dispatch(selectACategory(catItme));
+    // showForm === _id ? setshowForm("") : setshowForm(_id);
   };
   const topLevelCat = categoryList.filter((row) => !row.parentCat);
   const childCat = categoryList.filter((row) => row.parentCat);
   return (
-    <ListGroup>
-      {topLevelCat.map((row, i) => {
-        return (
-          <>
-            <ListGroup.Item key={i}>
-              {row.name}
-              <span className="item-buttons" style={{ marginLeft: "5rem" }}>
-                <Button onClick={() => handleOnEdit(row._id)}>Edit</Button>
-                <Button
-                  variant="danger"
-                  onClick={() => handleonDeleteClicked(row._id)}
-                >
-                  Delete
-                </Button>
-              </span>
-              {showForm === row._id && <EditCategoryForm categoryEdit={row} />}
-            </ListGroup.Item>
-            {childCat.map(
-              (itm) =>
-                itm.parentCat === row._id && (
-                  <ListGroup.Item key={i}>
-                    {`-->${itm.name}`}{" "}
-                    <span
-                      className="item-buttons"
-                      style={{ marginLeft: "5rem" }}
-                    >
-                      <Button onClick={() => handleOnEdit(itm._id)}>
-                        Edit
-                      </Button>
-                      <Button
-                        variant="danger"
-                        onClick={() => handleonDeleteClicked(itm._id)}
+    <>
+      <EditCategoryForm />
+      <ListGroup>
+        {topLevelCat?.map((row, i) => {
+          return (
+            <>
+              <ListGroup.Item key={row._id}>
+                {row.name}
+                <span className="item-buttons" style={{ marginLeft: "5rem" }}>
+                  <Button onClick={() => handleOnEdit(row._id)}>Edit</Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleonDeleteClicked(row._id)}
+                  >
+                    Delete
+                  </Button>
+                </span>
+              </ListGroup.Item>
+              {childCat?.map(
+                (itm) =>
+                  itm.parentCat === row._id && (
+                    <ListGroup.Item key={itm._id}>
+                      {`-->${itm.name}`}
+                      <span
+                        className="item-buttons"
+                        style={{ marginLeft: "5rem" }}
                       >
-                        Delete
-                      </Button>
-                    </span>
-                    {showForm === itm._id && (
-                      <EditCategoryForm categoryEdit={itm} />
-                    )}
-                  </ListGroup.Item>
-                )
-            )}
-          </>
-        );
-      })}
-    </ListGroup>
+                        <Button onClick={() => handleOnEdit(itm._id)}>
+                          Edit
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => handleonDeleteClicked(itm._id)}
+                        >
+                          Delete
+                        </Button>
+                      </span>
+                    </ListGroup.Item>
+                  )
+              )}
+            </>
+          );
+        })}
+      </ListGroup>
+    </>
   );
 };
 

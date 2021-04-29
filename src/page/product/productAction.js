@@ -18,6 +18,7 @@ import {
 
 export const addNewProduct = (formDt) => async (dispatch) => {
   // call api or reducer to update the state
+
   try {
     dispatch(requestPending());
     const result = await saveProduct(formDt);

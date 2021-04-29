@@ -28,12 +28,12 @@ const AddProductForm = () => {
   };
   const handleOnSubmit = (e) => {
     e.preventDefault();
-
     const formData = new FormData();
 
     Object.keys(newProduct).map((key) => {
       key !== "images" && formData.append(key, newProduct[key]);
     });
+
     images.length &&
       [...images].map((image) => {
         formData.append("images", image);
@@ -43,6 +43,7 @@ const AddProductForm = () => {
 
   const handleOnSelectChange = (e) => {
     const { files } = e.target;
+    console.log(images);
     setImages(files);
   };
 
@@ -187,6 +188,7 @@ const AddProductForm = () => {
             id="exampleFormControlFile1"
             label="upload image file only"
             multiple
+            accept="image/*"
           />
         </Form.Group>
 

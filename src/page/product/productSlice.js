@@ -4,6 +4,7 @@ const initialState = {
   status: "",
   message: "",
   deleteMsg: "",
+
   productList: [],
 };
 
@@ -29,6 +30,7 @@ const productSlice = createSlice({
       state.status = payload.status;
       state.deleteMsg = payload.message;
     },
+
     // updateCatSuccess: (state, { payload }) => {
     //   state.isPending = false;
     //   state.status = payload.status;

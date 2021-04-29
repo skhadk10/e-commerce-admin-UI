@@ -8,7 +8,7 @@ export const saveProduct = (formDt) => {
     try {
       const { data } = await axios.post(ProdAPI, formDt, {
         headers: {
-          "content-type": "multipart/form-data",
+          "Content-type": "multipart/form-data",
         },
       });
 

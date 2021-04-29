@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Form, Spinner, Alert } from "react-bootstrap";
+import { Button, Form, Spinner, Alert, Image } from "react-bootstrap";
 import {
   fetchAProduct,
   updateAProduct,
@@ -18,6 +18,7 @@ const initialState = {
   saleEndDate: Date(),
   description: "",
   images: [],
+  imgToRemove: [],
   categories: [],
 };
 const EditProductForm = () => {
@@ -25,6 +26,9 @@ const EditProductForm = () => {
   const { _id } = useParams();
 
   const [editProduct, setEditProduct] = useState(initialState);
+
+  const [images, setImages] = useState([]);
+  const [imgToDelete, setimgToDelete] = useState([]);
 
   const { isLoading, status, message, product } = useSelector(
     (state) => state.selectedProduct
@@ -51,9 +55,35 @@ const EditProductForm = () => {
     e.preventDefault();
     const { __v, ...updateProduct } = editProduct;
     console.log(updateProduct);
-    dispatch(updateAProduct(updateProduct));
+
+    const formData = new FormData();
+    // append form data
+    Object.keys(updateProduct).map((key) => {
+      key !== "images" && formData.append(key, updateProduct[key]);
+    });
+    // append new images
+    images.length &&
+      [...images].map((image) => {
+        formData.append("images", image);
+      });
+
+    // append image to delete
+    imgToDelete.length && formData.append("imgToDelete", imgToDelete);
+    dispatch(setEditProduct(formData));
   };
 
+  const onImageDeleteSelect = (e) => {
+    const { checked, value } = e.target;
+    console.log(checked, value);
+    if (checked) {
+      // put img in side the array
+      setimgToDelete([...imgToDelete, value]);
+    } else {
+      // take _id in the array
+      const updateImgToDelete = imgToDelete.filter((path) => path !== value);
+      setimgToDelete(updateImgToDelete);
+    }
+  };
   const onCatSelect = (e) => {
     const { checked, value } = e.target;
     console.log(checked, value);
@@ -72,6 +102,13 @@ const EditProductForm = () => {
       });
     }
   };
+
+  const handleOnSelectChange = (e) => {
+    const { files } = e.target;
+
+    setImages(files);
+  };
+
   return (
     <div>
       {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
@@ -85,7 +122,7 @@ const EditProductForm = () => {
       {!product._id ? (
         <h1>product not found</h1>
       ) : (
-        <Form onSubmit={handleOnSubmit}>
+        <Form onSubmit={handleOnSubmit} entype="multipart/form-data">
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -178,38 +215,45 @@ const EditProductForm = () => {
             />
           </Form.Group>
 
-          {/* <Form.Group>
-            <Form.File
-              name="images"
-              value={editProduct.images}
-              onChange={handleOnChange}
-              id="exampleFormControlFile1"
-              label="Images"
-            />
-          </Form.Group> */}
-
-          {/* <Form.Group controlId="exampleForm.ControlSelect2">
-            <Form.Label>Select Categories</Form.Label>
-            <Form.Control
-              name="categories"
-              value={newProduct.categories}
-              onChange={handleOnChange}
-              as="select"
-              multiple
-              required
-            >
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </Form.Control>
-          </Form.Group> */}
           <hr />
           <ProductCategoryList
             onCatSelect={onCatSelect}
             SelectedCatIds={editProduct.categories}
           />
+
+          <hr />
+          <div className="d-flex justify-content-start">
+            {editProduct?.images?.length &&
+              editProduct.images.map((imgsource, i) => (
+                <div>
+                  <Image
+                    src={imgsource}
+                    width="80px"
+                    height="auto"
+                    className="m-2"
+                  />
+
+                  <Form.Check
+                    type="checkbox"
+                    onChange={onImageDeleteSelect}
+                    defaultValue={imgsource}
+                    checked={imgToDelete?.includes(imgsource)}
+                    label="Delete"
+                  />
+                </div>
+              ))}
+          </div>
+          <hr />
+          <Form.Group>
+            <Form.File
+              name="images"
+              onChange={handleOnSelectChange}
+              id="exampleFormControlFile1"
+              label="upload image file only"
+              multiple
+              accept="image/*"
+            />
+          </Form.Group>
           <hr />
           <Button variant="primary" type="submit">
             Submit
