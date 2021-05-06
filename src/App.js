@@ -9,32 +9,33 @@ import PasswordReset from "./page/password reset/passwordReset";
 import Product from "./page/product/product";
 import EditProduct from "./page/edit-product/EditProduct.js";
 import AddProduct from "./page/product/AddProduct";
+import PrivateRoute from "./components/private-route/PrivateRoute";
 function App() {
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route path="/Dashboard">
+          <PrivateRoute path="/Dashboard">
             <Dashboard />
-          </Route>
-          <Route path="/Category">
+          </PrivateRoute>
+          <Route exact path="/Category">
             <Category />
           </Route>
-          <Route path="/Products">
+          <Route exact path="/Products">
             <Product />
           </Route>
-          <Route path="/Product/new">
+          <Route exact path="/Product/new">
             <AddProduct />
           </Route>
-          <Route path="/Product/:_id">
+          <Route exact path="/Product/:_id">
             <EditProduct />
           </Route>
 
-          <Route path="/reset-password">
+          <Route exact path="/reset-password">
             <PasswordReset />
           </Route>
 
-          <Route path="/">
+          <Route exact path="/">
             <Login />
           </Route>
         </Switch>

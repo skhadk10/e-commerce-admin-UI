@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Form, Button, Spinner, Alert } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,11 +16,14 @@ const LoginForm = () => {
   const { isLoading, loginResponse } = useSelector((state) => state.login);
   const [login, setLogin] = useState(initialState);
 
+  const token = sessionStorage.getItem("accessJWT");
+  console.log(token);
+  useEffect(() => {
+    token && history.push("/dashboard");
+  }, [loginResponse]);
   const handleOnChange = (e) => {
-    console.log("from form component>>", e.target.value);
     const { name, value } = e.target;
     setLogin({ ...login, [name]: value });
-    console.log(name, value);
   };
 
   const handleOnSubmit = (e) => {
@@ -30,7 +33,7 @@ const LoginForm = () => {
       alert("plz fill up all the input field");
     }
     dispatch(sendLogin(login));
-    console.log(sendLogin(login));
+
     // history.push("/dashboard");
   };
   return (
