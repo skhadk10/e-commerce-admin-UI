@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const rootUrl = "http://localhost:8000/api/v1/";
+const rootUrl = "http://localhost:8001/api/v1/";
 const catApi = rootUrl + "category";
 
 export const saveCategory = (formDt) => {
