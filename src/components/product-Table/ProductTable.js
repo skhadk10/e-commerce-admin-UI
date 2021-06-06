@@ -22,7 +22,7 @@ const ProductListTable = () => {
     dispatch(deleteProduct(_id));
   };
 
-  console.log(productList);
+  // console.log(productList);
   return (
     <div>
       {isLoading && <Spinner variant="primary" animation="border"></Spinner>}

@@ -26,6 +26,7 @@ const AddProductForm = () => {
     const { name, value } = e.target;
     setNewProduct({ ...newProduct, [name]: value });
   };
+
   const handleOnSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -43,13 +44,13 @@ const AddProductForm = () => {
 
   const handleOnSelectChange = (e) => {
     const { files } = e.target;
-    console.log(images);
+
     setImages(files);
   };
 
   const onCatSelect = (e) => {
     const { checked, value } = e.target;
-    console.log(checked, value);
+
     if (checked) {
       // put _id in side the array
       setNewProduct({
@@ -156,24 +157,6 @@ const AddProductForm = () => {
             required
           />
         </Form.Group>
-
-        {/* <Form.Group controlId="exampleForm.ControlSelect2">
-          <Form.Label>Select Categories</Form.Label>
-          <Form.Control
-            name="categories"
-            value={newProduct.categories}
-            onChange={handleOnChange}
-            as="select"
-            multiple
-            required
-          >
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </Form.Control>
-        </Form.Group> */}
 
         <hr />
         <ProductCategoryList

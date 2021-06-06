@@ -22,7 +22,7 @@ export const getProducts = () => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data } = await axios.get(ProdAPI);
-      console.log(data);
+      // console.log(data);
       resolve(data);
     } catch (error) {
       reject(error);
