@@ -12,7 +12,7 @@ const Header = () => {
   const history = useHistory()
 
   const handleOnLogOut=()=>{
-    console.log(loginResponse.result);
+    console.log(loginResponse);
     dispatch(LogOut(loginResponse))
   }
 

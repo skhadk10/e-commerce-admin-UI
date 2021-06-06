@@ -28,11 +28,12 @@ export const LogOut = (_id) => async (dispatch) => {
   
   try {
     dispatch(requestPending());
+    sessionStorage.removeItem("accessJWT" );
+    localStorage.removeItem("ourEcommerceRJWT");
     const result = await LogOutApi(_id); //return {status,message,user,tokenni}
     console.log("from action",result);
    
-  sessionStorage.removeItem("accessJWT" );
-   localStorage.removeItem("ourEcommerceRJWT");
+
     dispatch(logOutSuccess(result));
   } catch (error) {
     const err = {
