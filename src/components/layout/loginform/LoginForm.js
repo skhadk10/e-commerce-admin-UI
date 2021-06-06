@@ -20,7 +20,7 @@ const LoginForm = () => {
   console.log(token);
   useEffect(() => {
     token && history.push("/dashboard");
-  }, [loginResponse]);
+  }, [history, loginResponse, token]);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setLogin({ ...login, [name]: value });
@@ -33,7 +33,7 @@ const LoginForm = () => {
       alert("plz fill up all the input field");
     }
     dispatch(sendLogin(login));
-
+    console.log("sendLogin",login)
     // history.push("/dashboard");
   };
   return (
