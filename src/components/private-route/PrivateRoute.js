@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-const PrivateRoute = ({ children,...rest }) => {
+const PrivateRoute = ({ children, ...rest }) => {
   const location = useLocation();
   const { isAuthorised } = useSelector((state) => state.login);
 
