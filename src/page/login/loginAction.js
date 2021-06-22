@@ -3,7 +3,7 @@ import { loginAPI } from "../../apis/loginAPI.js";
 import { LogOutApi } from "../../apis/LogOut.js";
 import { tokenAPI,getUserAPI } from "../../apis/tokenAPi.js";
 
-import { requestPending, loginSuccess, requestFail, logOutSuccess,updateLogin } from "./loginSlice.js";
+import { requestPending, loginSuccess, requestFail, logOutSuccess,updateLogin, UserProfile } from "./loginSlice.js";
 
 //
 
@@ -67,6 +67,6 @@ export const userAutoLogin = () => async (dispatch) => {
     }
   }
 
-  // const userDetails = await getUserAPI(refreshJWT);
-  // userDetails._id && dispatch(userProfile(userDetails));
+  const userDetails = await getUserAPI(refreshJWT);
+  userDetails==="success" && dispatch(UserProfile(userDetails));
 };

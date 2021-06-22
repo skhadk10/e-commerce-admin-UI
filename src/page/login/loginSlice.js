@@ -3,6 +3,7 @@ const initialState = {
   isLoading: false,
   isAuthorised:false,
   loginResponse: {},
+  user: {},
 };
 
 const loginSlice = createSlice({
@@ -28,6 +29,11 @@ const loginSlice = createSlice({
       state.isAuthorised = true;
       state.loginResponse = payload || {};
     },
+    UserProfile: (state, { payload }) => {
+      state.isLoading = false;
+      state.isAuthorised = true;
+      state.user = payload || {};
+    },
 
     requestFail: (state, { payload }) => {
       state.isLoading = false;
@@ -36,5 +42,5 @@ const loginSlice = createSlice({
   },
 });
 const { reducer, actions } = loginSlice;
-export const { requestPending, loginSuccess,logOutSuccess,updateLogin, requestFail } = actions;
+export const { requestPending, loginSuccess,logOutSuccess,updateLogin,UserProfile, requestFail } = actions;
 export default reducer;

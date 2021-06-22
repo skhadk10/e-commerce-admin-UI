@@ -23,7 +23,7 @@ export const getUserAPI = (token) => {
   return new Promise(async (resolve, reject) => {
     console.log("from token api", token);
     try {
-      const { data } = await axios.post(tokenAPIurl, token);
+      const { data } = await axios.post(tokenAPIurl, {token});
       console.log("from api result", data);
 
       resolve(data);
