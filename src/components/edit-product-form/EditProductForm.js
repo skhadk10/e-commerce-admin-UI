@@ -69,7 +69,7 @@ const EditProductForm = () => {
 
     // append image to delete
     imgToDelete.length && formData.append("imgToDelete", imgToDelete);
-    dispatch(setEditProduct(formData));
+    dispatch(updateAProduct(formData));
   };
 
   const onImageDeleteSelect = (e) => {

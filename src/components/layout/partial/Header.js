@@ -12,18 +12,18 @@ const Header = () => {
   const history = useHistory()
   const location = useLocation()
   
-  // const accessJWT = sessionStorage.getItem("accessJWT");
-  // const refreshJWT = localStorage.getItem("ourEcommerceRJWT");
+ 
+  const refreshJWT = localStorage.getItem("ourEcommerceRJWT");
 
-  // let { from } = location.state || { from: { pathname: "/" } };
-  // useEffect(() => {
-  //   isAuthorised && history.replace(from);
-  //   !isAuthorised && dispatch(userAutoLogin());
-  // }, [dispatch, from, history, isAuthorised]);
+ 
+  useEffect(() => {
+   if( !isAuthorised && refreshJWT)  
+   dispatch(userAutoLogin());
+  }, [isAuthorised]);
 
   const handleOnLogOut=()=>{
     console.log(loginResponse);
-    dispatch(LogOut(loginResponse?.result))
+    dispatch(LogOut(loginResponse?.user))
     history.push("/");
   }
 
@@ -38,10 +38,10 @@ const Header = () => {
         <Navbar.Text>
           <i className="fas fa-user text-success"></i>
         </Navbar.Text>
-        <Navbar.Text>    <Link onClick={()=>{handleOnLogOut()}}>Log Out</Link>
-          {/* {
+        <Navbar.Text>   
+          {
           isAuthorised ? (
-        
+         <Link onClick={()=>{handleOnLogOut()}}>Log Out</Link>
           ):( <div className="sign">
           <div className="header_signin">
             <Link to="/Sign-In">Sign-In </Link>{" "}
@@ -50,7 +50,7 @@ const Header = () => {
             <Link to="/Create-Account">Sign-up</Link>
           </div>
         </div>)}
-        */}
+       
          </Navbar.Text>
       </Navbar.Collapse>
     </Navbar>

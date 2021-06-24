@@ -1,18 +1,24 @@
 // import { deleteCategory } from "../../e-commerance-api/model/category/Category.model.js";
 import { loginAPI } from "../../apis/loginAPI.js";
 import { LogOutApi } from "../../apis/LogOut.js";
-import { tokenAPI,getUserAPI } from "../../apis/tokenAPi.js";
+import { tokenAPI, getUserAPI } from "../../apis/tokenAPi.js";
 
-import { requestPending, loginSuccess, requestFail, logOutSuccess,updateLogin, UserProfile } from "./loginSlice.js";
+import {
+  requestPending,
+  loginSuccess,
+  requestFail,
+  logOutSuccess,
+  updateLogin,
+  UserProfile,
+} from "./loginSlice.js";
 
 //
 
 export const sendLogin = (formData) => async (dispatch) => {
-  
   try {
     dispatch(requestPending());
     const result = await loginAPI(formData); //return {status,message,user,tokenni}
-    console.log("from action",result);
+    console.log("from action", result);
     const { accessJWT, refreshJWT } = result;
     accessJWT && sessionStorage.setItem("accessJWT", accessJWT);
     refreshJWT && localStorage.setItem("ourEcommerceRJWT", refreshJWT);
@@ -25,17 +31,14 @@ export const sendLogin = (formData) => async (dispatch) => {
     dispatch(requestFail(err));
   }
 };
-export const LogOut = (_id) => async (dispatch) => {
-  
+export const LogOut = (_id) => (dispatch) => {
   try {
     dispatch(requestPending());
-    sessionStorage.removeItem("accessJWT" );
+    sessionStorage.removeItem("accessJWT");
     localStorage.removeItem("ourEcommerceRJWT");
-    const result = await LogOutApi(_id); //return {status,message,user,tokenni}
-    console.log("from action",result);
-   
+    LogOutApi(_id); //return {status,message,user,tokenni}
 
-    dispatch(logOutSuccess(result));
+    dispatch(logOutSuccess());
   } catch (error) {
     const err = {
       status: "error",
@@ -68,5 +71,5 @@ export const userAutoLogin = () => async (dispatch) => {
   }
 
   const userDetails = await getUserAPI(refreshJWT);
-  userDetails==="success" && dispatch(UserProfile(userDetails));
+  userDetails === "success" && dispatch(UserProfile(userDetails));
 };

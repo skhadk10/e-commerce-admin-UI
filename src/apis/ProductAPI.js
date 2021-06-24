@@ -56,6 +56,7 @@ export const productDelete = (_id) => {
 
 // UPdate product in Edit product form
 export const updateProduct = (formDt) => {
+  console.log("from api update",formDt);
   return new Promise(async (resolve, reject) => {
     try {
       const { data } = await axios.put(ProdAPI, formDt);
